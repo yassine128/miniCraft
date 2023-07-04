@@ -1,7 +1,5 @@
 from OpenGL.GL import *
-from OpenGL.GLU import *
-from player import Player
-import numpy as np
+
 
 
 class Cube: 

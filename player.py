@@ -30,31 +30,25 @@ class Player:
         return False
 
     def move(self, event, cube):
-        if event.type == pygame.KEYDOWN and not self.collision(cube):
+        if event.type == pygame.KEYDOWN:
             # Store the current position for collision checking
             prev_x, prev_y, prev_z = self.x, self.y, self.z
-            front, right = 0, 0
+            movement = {
+                pygame.K_LEFT: (0.1, 0),
+                pygame.K_RIGHT: (-0.1, 0),
+                pygame.K_UP: (0, 0.1),
+                pygame.K_DOWN: (0, -0.1)
+            }
 
-            if event.key == pygame.K_LEFT:
-                self.x += 0.1
-                right = 0.1
-            if event.key == pygame.K_RIGHT:
-                self.x -= 0.1
-                right = -0.1
-            if event.key == pygame.K_UP:
-                self.z += 0.1
-                front = 0.1
-            if event.key == pygame.K_DOWN:
-                self.z -= 0.1
-                front = -0.1
+            for key, (dx, dz) in movement.items():
+                if event.key == key:
+                    self.x += dx
+                    self.z += dz
+                    if self.collision(cube):
+                        self.x -= dx
+                        self.z -= dz
 
-            # if self.collision(cube):
-            #     print("collision")
-            #     self.x, self.y, self.z = prev_x, prev_y, prev_z
-            #     front = 0
-            #     self.z -= 1  # Move back a little bit in the Z-axis
-        
-            glTranslatef(right, 0, front)
+            glTranslatef(self.x - prev_x, 0, self.z - prev_z)
 
-    def getPosition(self): 
+    def getPosition(self):
         return (self.x, self.y, self.z)

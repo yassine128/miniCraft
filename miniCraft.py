@@ -44,7 +44,6 @@ def main():
                 pygame.quit()
                 quit()
 
-        print(get_camera_position())
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         glClearColor(39/255, 149/255, 245/255, 0.8)
         player.move(event, cube)
