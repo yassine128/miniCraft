@@ -9,5 +9,4 @@ def generateTerrain(n) -> list[Cube]:
         for j in range(n):
             c = Cube(i * 2, j * 2, 0, 1)
             cubeList += [c]
-            print(c.x, c.y, c.z)
     return cubeList

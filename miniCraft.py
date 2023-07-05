@@ -46,7 +46,8 @@ def main():
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
 
     glMatrixMode(GL_MODELVIEW)
-    gluLookAt(0, -8, 0, 0, 0, 0, 0, 0, 1)
+    player = Player(0, 2, 0)
+    gluLookAt(player.x, player.y, player.z, 0, 0, 0, 0, 0, 1)
     viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
     glLoadIdentity()
 
@@ -59,9 +60,6 @@ def main():
     paused = False
     run = True
 
-    camera_position = get_camera_position()
-
-    player = Player(camera_position[0], camera_position[1], camera_position[2])
     cubeList = generateTerrain(2)
     displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
 
