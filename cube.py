@@ -1,23 +1,26 @@
 from OpenGL.GL import *
 
-
-
 class Cube: 
-    def __init__(self) -> None:
+    def __init__(self, x, y, z, size) -> None:
+        self.x = x
+        self.y = y
+        self.z = z
+        self.size = size
         self.colors = (
-            (1,0,0),
-            (0,1,0),
-            (0,0,1),
-            (0,1,0),
-            (1,1,1),
-            (0,1,1),
-            (1,0,0),
-            (0,1,0),
-            (0,0,1),
-            (1,0,0),
-            (1,1,1),
-            (0,1,1),
-            )
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0, 1, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0),
+            (0.4, 0.2, 0)
+        )
+
         self.surfaces = (
             (0,1,2,3),
             (3,2,7,6),
@@ -27,16 +30,15 @@ class Cube:
             (4,0,3,6)
             )
 
-
         self.vertices = (
-            (1, -1, -1),
-            (1, 1, -1),
-            (-1, 1, -1),
-            (-1, -1, -1),
-            (1, -1, 1),
-            (1, 1, 1),
-            (-1, -1, 1),
-            (-1, 1, 1)
+            (x + size, y - size, z - size),
+            (x + size, y + size, z - size),
+            (x - size, y + size, z - size),
+            (x - size, y - size, z - size),
+            (x + size, y - size, z + size),
+            (x + size, y + size, z + size),
+            (x - size, y - size, z + size),
+            (x - size, y + size, z + size)
             )
 
         self.edges = (
@@ -53,14 +55,14 @@ class Cube:
             (5,4),
             (5,7)
             )
-        
-    def draw(self):
+
+
+
+    def draw(self, camera_position):
         glBegin(GL_QUADS)
-        for surface in self.surfaces:
-            x = 0
+        for i, surface in enumerate(self.surfaces):
+            glColor3fv(self.colors[i])  # Assign color directly to each face
             for vertex in surface:
-                x+=1
-                glColor3fv(self.colors[x])
                 glVertex3fv(self.vertices[vertex])
         glEnd()
 
@@ -69,3 +71,5 @@ class Cube:
             for vertex in edge:
                 glVertex3fv(self.vertices[vertex])
         glEnd()
+
+
