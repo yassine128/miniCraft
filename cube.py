@@ -1,6 +1,6 @@
 from OpenGL.GL import *
 
-class Cube: 
+class Cube:
     def __init__(self, x, y, z, size) -> None:
         self.x = x
         self.y = y
@@ -56,9 +56,7 @@ class Cube:
             (5,7)
             )
 
-
-
-    def draw(self, camera_position):
+    def draw(self):
         glBegin(GL_QUADS)
         for i, surface in enumerate(self.surfaces):
             glColor3fv(self.colors[i])  # Assign color directly to each face
@@ -69,7 +67,7 @@ class Cube:
         glBegin(GL_LINES)
         for edge in self.edges:
             for vertex in edge:
-                glVertex3fv(self.vertices[vertex])
+                glVertex3f(*self.vertices[vertex])
         glEnd()
 
 

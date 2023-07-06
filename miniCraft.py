@@ -7,15 +7,15 @@ from gameLogic import *
 import numpy as np
 
 """
-Quick version of minecraft 
+Simple version of minecraft 
 Implementing : 
     - Player movement , Front Back [X], Mouse Rotation [X], Up-Down [X]
     - Gravity
     - Collision 
-    - mouse orientation 
-    - Textures 
+    - mouse orientation [X]
+    - Textures [X]
     - Cubes [X]
-    - Maybe: Random cubes generation
+    - Cube Adding  
 """
 
 
@@ -60,16 +60,23 @@ def main():
     paused = False
     run = True
 
+    crosshair_color = (255, 255, 255)  # White color
+    crosshair_size = 20
+    crosshair_thickness = 2
+
     cubeList = generateTerrain(2)
     displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
 
-    pygame.mouse.set_visible(False)
+    #pygame.mouse.set_visible(False)
+    clock = pygame.time.Clock()
+
+    screen_width = 800
+    screen_height = 600
 
     while True:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         glClearColor(39 / 255, 149 / 255, 245 / 255, 0.8)
         for event in pygame.event.get():
-            #player.move(event, cubeList)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
@@ -77,25 +84,32 @@ def main():
                 mouseMove = [event.pos[i] - displayCenter[i] for i in range(2)]  # Mouse movement
                 pygame.mouse.set_pos(displayCenter)
 
+        for c in cubeList:
+            c.draw()
+
+
         keypress = pygame.key.get_pressed()
+        #print(player.x, player.y, player.z)
+        if keypress[pygame.K_1]:
+            pick_object(screen_width//2, screen_height//2, cubeList)
 
         glLoadIdentity()
-        up_down_angle += mouseMove[1] * 0.1
+        up_down_angle += mouseMove[1] * 0.3
         glRotatef(up_down_angle, 1.0, 0.0, 0.0)
         glPushMatrix()
         glLoadIdentity()
         player.move(keypress, cubeList)
-        glRotatef(mouseMove[0] * 0.1, 0.0, 1.0, 0.0)
+        glRotatef(mouseMove[0] * 0.3, 0.0, 1.0, 0.0)
         glMultMatrixf(viewMatrix)
         viewMatrix = glGetFloatv(GL_MODELVIEW_MATRIX)
         glPopMatrix()
         glMultMatrixf(viewMatrix)
 
-        for c in cubeList:
-            c.draw(get_camera_position())
+        clock.tick()
+        #print(clock.get_fps())
 
         pygame.display.flip()
-        pygame.time.wait(10)
+        pygame.time.wait(5)
 
 
 main()

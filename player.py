@@ -38,14 +38,9 @@ class Player:
         }
         for key, (dx, dy, dz) in movement.items():
             if keypress[key]:
-                #print(dx, dz)
                 self.x += dx
                 self.z += dz
                 self.y += dy
-                # for cube in listCube:
-                #    if self.collision(cube):
-                #        self.x -= dx
-                #        self.z -= dz
         glTranslatef(self.x - prev_x, self.y - prev_y, self.z - prev_z)
 
     def getPosition(self):
