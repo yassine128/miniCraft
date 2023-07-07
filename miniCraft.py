@@ -35,6 +35,12 @@ def main():
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
+    glEnable(GL_LIGHT0)
+    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.0, 1.0, 1.0, 1])
+
+    sphere = gluNewQuadric()
+
     glMatrixMode(GL_PROJECTION)
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
 
