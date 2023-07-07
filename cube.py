@@ -71,3 +71,15 @@ class Cube:
         glEnd()
 
 
+class woodCube(Cube):
+    def __init__(self, x, y, z, size):
+        super().__init__(x, y, z, size)
+        self.colors = (
+            (1, 0.6, 0.2),
+            (1, 0.6, 0.2),
+            (1, 0.6, 0.2),
+            (1, 0.6, 0.2),
+            (1, 0.6, 0.2),
+            (1, 0.6, 0.2),
+        )
+

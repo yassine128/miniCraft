@@ -10,12 +10,11 @@ import numpy as np
 Simple version of minecraft 
 Implementing : 
     - Player movement , Front Back [X], Mouse Rotation [X], Up-Down [X]
-    - Gravity
-    - Collision 
     - mouse orientation [X]
     - Textures [X]
     - Cubes [X]
-    - Cube Adding  
+    - Cube Adding [x]
+    - Cube Removing [X]
 """
 
 
@@ -35,12 +34,6 @@ def main():
     glShadeModel(GL_SMOOTH)
     glEnable(GL_COLOR_MATERIAL)
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
-
-    glEnable(GL_LIGHT0)
-    glLightfv(GL_LIGHT0, GL_AMBIENT, [0.5, 0.5, 0.5, 1])
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, [1.0, 1.0, 1.0, 1])
-
-    sphere = gluNewQuadric()
 
     glMatrixMode(GL_PROJECTION)
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
@@ -64,10 +57,10 @@ def main():
     crosshair_size = 20
     crosshair_thickness = 2
 
-    cubeList = generateTerrain(2)
+    cubeList = generateTerrain(5)
     displayCenter = [screen.get_size()[i] // 2 for i in range(2)]
 
-    #pygame.mouse.set_visible(False)
+    # pygame.mouse.set_visible(False)
     clock = pygame.time.Clock()
 
     screen_width = 800
@@ -87,11 +80,13 @@ def main():
         for c in cubeList:
             c.draw()
 
-
         keypress = pygame.key.get_pressed()
-        #print(player.x, player.y, player.z)
-        if keypress[pygame.K_1]:
-            pick_object(screen_width//2, screen_height//2, cubeList)
+        cube = pick_object(screen_width // 2, screen_height // 2, cubeList)
+        mouse = pygame.mouse.get_pressed()
+        if mouse[0]:
+            addCube(cubeList, cube)
+        if mouse[2]:
+            delCube(cubeList, cube)
 
         glLoadIdentity()
         up_down_angle += mouseMove[1] * 0.3
@@ -106,7 +101,6 @@ def main():
         glMultMatrixf(viewMatrix)
 
         clock.tick()
-        #print(clock.get_fps())
 
         pygame.display.flip()
         pygame.time.wait(5)
